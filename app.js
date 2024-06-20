@@ -5,6 +5,8 @@ const routeBook = require("./routes/book")
 
 const app = express();
 
+app.use(express.json());
+
 app.use('/books', routeBook);
 
 // Configure port on application.
