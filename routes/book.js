@@ -15,7 +15,6 @@ router.get('/:id', getBook);
 
 router.post('/', postBook);
 
-// Create first route PATCH on project.
 router.patch('/:id', patchBook);
 
 router.delete('/:id', deleteBook);

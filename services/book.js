@@ -2,19 +2,19 @@ const fs = require('fs');
 
 function getAllBooks() {
 
-    return JSON.parse(fs.readFileSync("books.json"));
+    return JSON.parse(fs.readFileSync('books.json'));
 }
 
 function getBookById(id) {
 
-    const books = JSON.parse(fs.readFileSync('books.json'));
+    const books = getAllBooks();
 
     return books.filter(book => book.id === id)[0];
 }
 
 function createNewBook(newBook) {
 
-    const books = JSON.parse(fs.readFileSync('books.json'));
+    const books = getAllBooks();
 
     const newListBooks = JSON.stringify([...books, newBook]);
 
@@ -23,7 +23,7 @@ function createNewBook(newBook) {
 
 function updateBook(id,  updated) {
 
-    let books = JSON.parse(fs.readFileSync("books.json"));
+    let books = getAllBooks();
 
     const indexChanged = books.findIndex(book => book.id === id);
 
@@ -34,7 +34,7 @@ function updateBook(id,  updated) {
 
 function deletedRecord(id) {
 
-    const books = JSON.parse(fs.readFileSync('books.json'));
+    const books = getAllBooks();
 
     const indexChanged = books.filter(book => book.id !== id);
 
