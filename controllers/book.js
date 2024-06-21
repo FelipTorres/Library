@@ -15,9 +15,7 @@ function getBooks(req, res) {
 
     } catch (error) {
 
-        res.status(500);
-
-        res.send(error.message);
+        errorHandling(res, 500, error.message);
     }
 }
 
@@ -26,15 +24,22 @@ function getBook(req, res) {
 
         const id = req.params.id;
 
-        const book = getBookById(id);
+        if (id && Number(id)) {
 
-        res.send(book);
+            const book = getBookById(id);
+
+            res.send(book);
+
+        } else {
+
+            res.status(422);
+
+            res.send("Id invalid.");
+        }
 
     } catch (error) {
 
-        res.status(500);
-
-        res.send(error.message);
+        errorHandling(res, 500, error.message);
     }
 }
 
@@ -44,16 +49,22 @@ function postBook(req, res) {
 
         const newBook = req.body;
 
-        createNewBook(newBook);
+        if (newBook.name) {
 
-        res.status(201);
+            createNewBook(newBook);
 
-        res.send('Book created successfully');
+            res.status(201);
+
+            res.send('Book created successfully');
+
+        } else {
+
+            errorHandling(res, 422, "Field name is required.");
+        }
 
     } catch (error) {
 
-        res.status(500);
-        res.send(error.message);
+        errorHandling(res, 500, error.message);
     }
 }
 
@@ -63,16 +74,22 @@ function patchBook(req, res) {
 
         const id = req.params.id;
 
-        const body = req.body;
+        if (id && Number(id)) {
 
-        updateBook(id, body);
+            const body = req.body;
 
-        res.send('Book changed successfully');
+            updateBook(id, body);
+
+            res.send('Book changed successfully');
+
+        } else {
+
+            errorHandling(res, 422, "Id invalid.");
+        }
 
     } catch (error) {
 
-        res.status(500);
-        res.send(error.message);
+        errorHandling(res, 500, error.message);
     }
 }
 
@@ -82,15 +99,28 @@ function deleteBook(req, res) {
 
         const id = req.params.id;
 
-        deletedRecord(id);
+        if (id && Number(id)) {
 
-        res.send('Book deleted successfully');
+            deletedRecord(id);
+
+            res.send('Book deleted successfully');
+
+        } else {
+
+            errorHandling(res, 422, "Id invalid.");
+        }
 
     } catch (error) {
 
-        res.status(500);
-        res.send(error.message);
+        errorHandling(res, 500, error.message);
     }
+}
+
+function errorHandling(res, status, message) {
+
+    res.status(status);
+
+    res.send(message);
 }
 
 module.exports = {
